@@ -1,0 +1,159 @@
+<!doctype html><html><head><meta charset="utf - 8"><title>日期类</title><link rel="stylesheet" href="../../stylesheets/timu.css" ></head>
+
+<body>
+<h1>日期类</h1>
+<p id="title">请做一个日期类，并应用此类来完成下列的日期计算。</p>
+<h3 onclick="change_visible('input')">Input</h3>
+<p id="input">每行有一个日期计算。<br>每行开始有一个数字。<br>如果这个数字是1，则后面跟一个日期d和一个整数k，表示要你计算一下，这个日期d后面的k天的日期。<br>如果这个数字是2，则后面跟两个日期d1和d2，表示要你计算这两个日期间隔几天。</p>
+<h3 onclick="change_visible('output')">Output</h3>
+<p id="output">输出每一行的结果。</p>
+<h3 onclick="change_visible('sample_input')">Sample Input</h3>
+<p id="sample_input">2 2016 3 1 2016 2 29<br>1 2016 10 27 -1</p>
+<h3 onclick="change_visible('sample_output')">Sample Output</h3>
+<p id="sample_output">1<br>2016 10 26</p>
+<h3 onclick="change_visible('code1')">code</h3>
+<pre id="code1">
+#include < fstream > 
+#include < iostream > 
+using namespace std;
+<strong>//类的话其实也就这样</strong>
+class date
+{
+    private:
+        
+    public:
+        int year,month,day;
+        date(){year=1970;month=1;day=1;}
+        void set(int y,int m,int d)
+        {
+            year=y;
+            month=m;
+            day=d;
+        }
+        void print()
+        {
+            cout <  < year <  < " " <  < month <  < " " <  < day <  < endl;
+        }
+        date operator+(int inter)
+        {
+            date result;
+            int y=year,m=month,d=day+inter;
+            int tag[13]={0,31,28,31,30,31,30,31,31,30,31,30,31};
+            while(d > tag[m])
+            {
+                if(m==2&&!(y%4==0&&y%100!=0||y%400==0))
+                {
+                    d-=28;
+                    m++;
+                    continue;
+                }
+                else if(m==2&&d > 29)
+                {
+                    d-=29;
+                    m++;
+                    continue;
+                }
+                else if(m==2)break;
+                else
+                {
+                    d-=tag[m];
+                    m++;
+                }
+                if(m > 12)
+                {
+                    m=1;
+                    y++;
+                }
+            }
+            while (d < =0)
+            {
+                m--;
+                if (m  <  1)
+                {
+                    m = 12;
+                    y--;
+                }
+                d += tag[m];
+                if (m == 2 && (y % 4 == 0 && y % 100 != 0 || y % 400 == 0))
+                    d++;
+            }
+
+            result.set(y,m,d);
+            return result;
+        }
+        int operator-(const date& x)
+        {
+            int tag[13]={0,31,28,31,30,31,30,31,31,30,31,30,31};
+            int y1=year,y2=x.year,m1=month,m2=x.month,d1=day,d2=x.day;
+            if(x.year==year)
+            {
+                if(x.month==month)
+                {
+                    if(x.day > day)return x.day-day;
+                    else return day-x.day;
+                }
+                if(m1 > m2)
+                {
+                    int tmp=m1;m1=m2;m2=tmp;
+                    tmp=d1;d1=d2;d2=tmp;
+                }
+                int sum=tag[m1]-d1+d2;
+                if(((m1==1&&2 < m2)||m1==2)&&(y1%4==0&&y1%100!=0||y1%400==0))
+                    sum++;
+                for(int i=m1+1;i < m2;i++)
+                    sum+=tag[i];
+                return sum;
+            }
+            if(y1 > y2)
+            {
+                int tmp=m1;m1=m2;m2=tmp;
+                tmp=d1;d1=d2;d2=tmp;
+                tmp=y1;y1=y2;y2=tmp;    
+            }
+            int sum=tag[m1]-d1+d2;
+            for(int i=m1+1;i < 13;i++)
+                    sum+=tag[i];
+            for(int i=1;i < m2;i++)
+                    sum+=tag[i];    
+            if(m1 < =2&&(y1%4==0&&y1%100!=0||y1%400==0))
+                    sum++;
+            if(2 < m2&&(y2%4==0&&y2%100!=0||y2%400==0))sum++;
+            for(int i=y1+1;i < y2;i++)
+                if(i%4==0&&i%100!=0||i%400==0)
+                    sum+=366;
+                else 
+                    sum+=365;
+            return sum;
+        }
+};
+int main()
+{
+<strong>//因为没对，所以去用测试数据去试了下，没发现哪里有问题</strong>
+    ofstream fout;
+    fout.open("d:\\1.txt");
+    int y,m,d,tag,inter;
+    date date1,date2;
+    while(cin >  > tag)
+    {
+        switch(tag)
+        {
+            case 1:
+                cin >  > y >  > m >  > d >  > inter;
+                date1.set(y,m,d);
+                date2=date1+inter;
+                fout <  < date2.year <  < " " <  < date2.month <  < " " <  < date2.day <  < endl;
+                break;
+            case 2:
+                cin >  > y >  > m >  > d;
+                date1.set(y,m,d);
+                cin >  > y >  > m >  > d;
+                date2.set(y,m,d);
+                fout <  < date2-date1 <  < endl;
+                break;
+        }
+    }
+    fout.close();
+}
+
+</pre>
+</body><script src = "../../javascripts/functions.js" ></script ></html>

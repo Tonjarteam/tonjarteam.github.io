@@ -1,0 +1,70 @@
+<!doctype html><html><head><meta charset="utf - 8"><title>最小公倍数</title><link rel="stylesheet" href="../../stylesheets/timu.css" ></head>
+
+<body>
+<h1>最小公倍数</h1>
+<p id="title">给定两个正整数，计算这两个数的最小公倍数。</p>
+<h3 onclick="change_visible('input')">Input</h3>
+<p id="input">输入包含多组测试数据，每组只有一行，包括两个不大于1000的正整数.</p>
+<h3 onclick="change_visible('output')">Output</h3>
+<p id="output">对于每个测试用例，给出这两个数的最小公倍数，每个实例输出一行。</p>
+<h3 onclick="change_visible('sample_input')">Sample Input</h3>
+<p id="sample_input">10 14</p>
+<h3 onclick="change_visible('sample_output')">Sample Output</h3>
+<p id="sample_output">70</p>
+<h3 onclick="change_visible('code1')">code1</h3>
+<pre id="code1">
+int method1(int a,int b)<strong>//穷举法 分别去尝试 b 2b 3b …… ab</strong>
+{
+    int x=0;
+    for(int i=1;i<=a;i++)
+        if((i*b)%a==0)
+        {
+            x=i*b;
+            break;
+        }
+    return x;
+}
+</pre>
+<h3 onclick="change_visible('code2')">code2</h3>
+<pre id="code2">
+int method2(int a,int b)<strong>//利用最小公倍数=a*b/最大公约数</strong>
+{
+    int z=0;<strong>//最大公约数 欧几里得算法(Euclidean algorithm)/辗转相除法</strong>
+    <strong>//循环方法</strong>
+    int max;
+    if(a>b)
+    {
+        max=a;
+        z=b;
+    }
+    else 
+    {
+        max=b;
+        z=a;
+    }
+    while(max%z!=0)<strong>//这里的max相当于迭代算法中的a,z相当于b，因为最后b要赋值给z，不如直接用z做。</strong>
+    {
+        int mid=max%z;
+        max=z;
+        z=mid;
+    }
+    return a*b/z;
+}
+</pre>
+<h3 onclick="change_visible('code3')">code3</h3>
+<pre id="code3">
+int gcd(int,int);
+int method3(int a,int b)<strong>//利用最小公倍数=a*b/最大公约数</strong>
+{
+    int z=0;<strong>//最大公约数 欧几里得算法(Euclidean algorithm)/辗转相除法</strong>
+    if(a>=b)z=gcd(a,b);
+    else     z=gcd(b,a);
+    return a*b/z;
+}
+int gcd(int a,int b)<strong>//迭代算法 默认a>b</strong>
+{
+    if(a%b==0)return b;
+    return gcd(b,a%b);
+}
+</pre>
+</body><script src = "../../javascripts/functions.js" ></script ></html>

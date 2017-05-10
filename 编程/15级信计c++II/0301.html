@@ -1,0 +1,67 @@
+<!doctype html><html><head><meta charset="utf - 8"><title>循环左位移</title><link rel="stylesheet" href="../../stylesheets/timu.css" ></head>
+
+<body>
+<h1>循环左位移</h1>
+<p id="title">给出两个不大于65535的非负整数，判断其中一个的16位二进制表示形式，是否能由另一个的16位二进制表示形式经过循环左移若干位而得到。<br>循环左移和普通左移的区别在于：最左边的那一位经过循环左移一位后就会被移到最右边去。比如：<br>1011 0000 0000 0001 经过循环左移一位后，变成 0110 0000 0000 0011, 若是循环左移2位，则变成 1100 0000 0000 0110</p>
+<h3 onclick="change_visible('input')">Input</h3>
+<p id="input">第一行是个整数n, 0 < n < 300000,表示后面还有n行数据<br>后面是n行，每行有两个不大于65535的非负整数</p>
+<h3 onclick="change_visible('output')">Output</h3>
+<p id="output">对于每一行的两个整数，输出一行，内容为YES或NO</p>
+<h3 onclick="change_visible('sample_input')">Sample Input</h3>
+<p id="sample_input">4<br>2 4<br>9 18<br>45057 49158<br>7 12</p>
+<h3 onclick="change_visible('sample_output')">Sample Output</h3>
+<p id="sample_output">YES<br>YES<br>YES<br>NO</p>
+<h3 onclick="change_visible('code1')">code</h3>
+<pre id="code1">
+#include < iostream > 
+using namespace std;
+<strong>//做法稍微和老师的有些不同</strong>
+<strong>//老师的做法更多地采用了位运算，不熟悉的同学可以去补一下相关内容，但不必看太多，毕竟也是个大坑。</strong>
+<strong>//我这里直接做了，先直接左移，如果大于65535(1<<16-1)/二的十六次方减一，就把多于的部分记录下来(b*65536)而b就是要添到屁股后面去的部分，减去前面的，加上后面的就返回a;</strong>
+<strong>//输入的时候两个两个一组可以去用二维数组，好像当时觉得去声明这样一个动态数组有点烦所以就用一维数组代替了。</strong>
+int zuoyi(long long a,int i)
+{
+    a=a <  < i;
+    if(a > 65535)
+    {
+        int b=a/65536;
+        a+=b;
+        a-=b*65536;
+    }
+    return a;
+}
+
+bool judge(int a,int b)
+{
+    for(int i=0;i < 16;i++)
+    {
+        if(zuoyi(a,i)==b)
+            return true;
+    }        
+    return false;
+}
+
+int main()
+{
+    int n;
+    while(cin >  > n)
+    {
+        int *a=new int[2*n];
+        for(int i=0;i < n;i++)
+        {
+            cin >  > a[2*i] >  > a[2*i+1];
+        }
+        for(int i=0;i < n;++i)
+        {
+            if(judge(a[2*i],a[2*i+1]))
+                cout <  < "YES" <  < endl;
+            else
+                cout <  < "NO" <  < endl;
+        }
+
+        delete[]a;
+    }
+    
+}
+</pre>
+</body><script src = "../../javascripts/functions.js" ></script ></html>

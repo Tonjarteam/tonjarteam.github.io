@@ -1,0 +1,58 @@
+<!doctype html><html><head><meta charset="utf - 8"><title>半素数</title><link rel="stylesheet" href="../../stylesheets/timu.css" ></head>
+
+<body>
+<h1>半素数</h1>
+<p id="title">如果一个正整数可以拆分成两个素数的乘积，则该数被称为是一个半素数，如9=3*3以及15=3*5，所以这两个数都是半素数。现给你一些不大于10000的正整数，要你找出其中的那些数是半素数。</p>
+<h3 onclick="change_visible('input')">Input</h3>
+<p id="input">第一行有一个整数T，表示要你判断的整数数的个数。<br>接下来有T行，每行一个正整数，这些数都不大于10000。</p>
+<h3 onclick="change_visible('output')">Output</h3>
+<p id="output">对应的正整数如果是半素数则输出yes，否则输出no。</p>
+<h3 onclick="change_visible('sample_input')">Sample Input</h3>
+<p id="sample_input">3<br>9<br>11<br>15</p>
+<h3 onclick="change_visible('sample_output')">Sample Output</h3>
+<p id="sample_output">yes<br>no<br>yes</p>
+<h3 onclick="change_visible('code1')">code</h3>
+<pre id="code1">
+#include < iostream > 
+#include < cmath > 
+using namespace std;
+bool judge_sushu(int n)
+{
+    int m = sqrt(n) + 1;
+    for (int i = 2; i  <  m; i++)
+    {
+        if (n%i == 0)
+            return 0;
+    }
+    return 1;
+}
+bool judge(int n)
+{
+    int m = sqrt(n) + 1;
+    for (int i = 2; i  <  m; i++)
+    {
+        if (n%i == 0)
+        {
+            return judge_sushu(i) && judge_sushu(n / i);
+        }
+    }
+    return 0;
+}
+int main()
+{
+    int T;
+    while (cin  >  >  T)
+    {
+        for (int i = 0; i  <  T; i++)
+        {
+            int n;
+            cin  >  >  n;
+            if (judge(n))
+                cout  <  <  "yes" <  < endl;
+            else
+                cout  <  <  "no" <  < endl;
+        }
+    }
+}
+</pre>
+</body><script src = "../../javascripts/functions.js" ></script ></html>

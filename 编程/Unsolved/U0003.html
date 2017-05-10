@@ -1,0 +1,50 @@
+<!doctype html><html><head><meta charset="utf - 8"><title>整数对</title><link rel="stylesheet" href="../../stylesheets/timu.css" ></head>
+
+<body>
+<h1>整数对</h1>
+<p id="title">Gardon和小希玩了一个游戏，Gardon随便想了一个数A（首位不能为0），把它去掉一个数字以后得到另外一个数B，他把A和B的和N告诉了小希，让小希猜想他原来想的数字。不过为了公平起见，如果小希回答的数虽然不是A，但同样能达到那个条件（去掉其中的一个数字得到B，A和B之和是N），一样算小希胜利。而且小希如果能答出多个符合条件的数字，就可以得到额外的糖果。 <br>所以现在小希希望你编写一个程序，来帮助她找到尽可能多的解。 <br>例如，Gardon想的是A=31,B=3 告诉小希N=34， <br>小希除了回答31以外还可以回答27（27+7=34）所以小希可以因此而得到一个额外的糖果。<br> </p>
+<h3 onclick="change_visible('input')">Input</h3>
+<p id="input">输入包含多组数据，每组数据一行，包含一个数N(1<=N<=10^9)，文件以0结尾。<br> </p>
+<h3 onclick="change_visible('output')">Output</h3>
+<p id="output">对于每个输入的N，输出所有符合要求的解（按照大小顺序排列）如果没有这样的解，输出"No solution."<br> </p>
+<h3 onclick="change_visible('sample_input')">Sample Input</h3>
+<p id="sample_input">34<br>152<br>21<br>0<br> </p>
+<h3 onclick="change_visible('sample_output')">Sample Output</h3>
+<p id="sample_output">27 31 32<br>126 136 139 141<br>No solution.</p>
+<h3 onclick="change_visible('code1')">code</h3>
+<pre id="code1">
+#include < iostream > 
+#include < cstdio > 
+using namespace std;
+bool check(int i,int m){
+    if(i==m)return false;
+    if(m%10==i%10)
+        return check(i/10,m/10);
+    else if(m-i/10==0)
+        return true;        
+    return false;
+}
+int main(){
+    int n;
+    while(scanf("%d",&n)!=EOF){
+        if(n==0)
+            break;
+        int start=n,end=n;
+        bool flag=true;
+        int count=1;
+        for(;start > 9;count*=10)start/=10;
+        start=n-count;
+        end=n-count/10;
+        for(int i=start;i < =end;i++){
+            if(check(i,n-i)){
+                printf("%d ",i);
+                flag=false;
+            }
+        }
+        if(flag)
+            printf("No solution.");
+        printf("\n");
+    }
+}
+</pre>
+</body><script src = "../../javascripts/functions.js" ></script ></html>

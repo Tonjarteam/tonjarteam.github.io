@@ -1,0 +1,320 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>圈叉游戏</title>
+</head>
+
+<body>
+<canvas id="chess" width="450px" height="450px" style="display:fill; position:fixed; margin:50px auto;"  ></canvas>
+<canvas id="win" width="500px" height="500px" onclick="setwintext()" style="display:none; position:fixed;left=60px;top:55px;" ></canvas>
+<br>
+<input type="button" id="w"  onclick="change_o()" value="OO：人类" />
+<input type="button" id="b"  onclick="change_x()" value="XX：人类"/>
+<input type="button" id="help" style="margin-left:130px" onclick="help()" value="游戏规则"/>
+<button style="margin-left:20px;" onclick="restart()">重新开始</button>
+<br>
+<script type="text/javascript">
+	var chess = document.getElementById("chess");
+	var context = chess.getContext("2d");
+	var wintext=document.getElementById("win");
+	var wincontext=wintext.getContext("2d");
+	
+	var O =true;
+	var person_o =true,person_x =true;
+	var chessBoard = []
+	var help_visible=false;
+	var computerflag=false;
+	var turn=0;
+	var id_setTimeout;
+	function draw_chess(){
+		context.beginPath();
+		context.strokeStyle="#2F2F2F";
+		context.moveTo(15,155);context.lineTo(435,155);
+		context.moveTo(15,295);context.lineTo(435,295);
+		context.moveTo(155,15);context.lineTo(155,435);
+		context.moveTo(295,15);context.lineTo(295,435);
+		context.stroke();
+	}
+	function draw(i,j){
+		if(chessBoard[i][j]!=0||i>=3||j>=3)return;
+		turn++;
+		console.log(i+" "+j)
+		if(O){
+			chessBoard[i][j]=1;
+			context.beginPath();
+			context.strokeStyle="black";
+			context.arc(85+i*140,85+j*140,50,0,2*Math.PI);
+			context.stroke();
+			
+		}
+		else{
+			chessBoard[i][j]=-1;
+			context.beginPath();
+			context.strokeStyle="black";
+			context.moveTo(35+i*140,35+j*140)
+			context.lineTo(135+i*140,135+j*140)
+			context.moveTo(35+i*140,135+j*140)
+			context.lineTo(135+i*140,35+j*140)
+			context.stroke();
+		}
+		if(i==0){
+			win_case[3]+=chessBoard[i][j];
+			if(j==0){
+				win_case[0]+=chessBoard[i][j];			
+				win_case[6]+=chessBoard[i][j];	
+			}
+			else if(j==1)	
+				win_case[1]+=chessBoard[i][j];
+			else{
+				win_case[2]+=chessBoard[i][j];	
+				win_case[7]+=chessBoard[i][j];
+			}
+		}
+		else if(i==1){
+			win_case[4]+=chessBoard[i][j];	
+			if(j==0)
+				win_case[0]+=chessBoard[i][j];		
+			else if(j==1){
+				win_case[1]+=chessBoard[i][j];
+				win_case[6]+=chessBoard[i][j];
+				win_case[7]+=chessBoard[i][j];
+			}
+			else
+				win_case[2]+=chessBoard[i][j];
+		}
+		else{
+			win_case[5]+=chessBoard[i][j];
+			if(j==0){
+				win_case[0]+=chessBoard[i][j];			
+				win_case[7]+=chessBoard[i][j];	
+			}
+			else if(j==1)	
+				win_case[1]+=chessBoard[i][j];
+			else{
+				win_case[2]+=chessBoard[i][j];	
+				win_case[6]+=chessBoard[i][j];
+			}
+		}
+		for(var i=0;i<8;i++)
+			if(win_case[i]==3||win_case[i]==-3)
+				return win(0);
+		if(turn==9)
+			return win(1);
+		O=!O;
+		if((O&&!person_o)||(!O&&!person_x)){
+			if(computerflag)
+				id_setTimeout=setTimeout("computer()",50);
+			document.getElementById("chess").onclick=null;
+		}
+		else{
+			set_click();
+		}
+	}
+	
+	function set_click(){
+		document.getElementById("chess").onclick=function(e){
+			draw(Math.floor((e.offsetX-15)/140),Math.floor((e.offsetY-15)/140))
+		}
+	}
+	var win_case=[];
+	function set_chessBoard(){
+		for(var i=0;i<3;i++){
+			chessBoard[i]=[]
+			for(var j=0;j<3;j++)
+			chessBoard[i][j]=0;
+		}
+		for(var i=0;i<8;i++) 
+			win_case[i]=0;
+	}
+	function restart(){
+		set_click();
+		set_chessBoard();
+		context.clearRect(0,0,600,600);
+		draw_chess();
+		setwintext();
+		O=true;
+		computerflag=true;
+		turn=0;
+		clearTimeout(id_setTimeout);
+		if(!person_o)
+			computer();
+	}
+	restart();
+	
+	function win(c){
+		if(c==0){
+		if(O){
+			wincontext.font="100px 华文新魏";
+			wincontext.fillStyle="#ff7575";
+			wincontext.fillText("圈胜",135,220);
+			wincontext.strokeStyle="white";
+			wincontext.strokeText("圈胜",135,220);
+			wintext.style.display="inline";
+			console.log("red win");
+			computerflag=false;
+			return document.getElementById("chess").onclick=null;
+		}
+		else{
+			wincontext.font="100px 华文新魏";
+			wincontext.fillStyle="#97CBFF";
+			wincontext.fillText("叉胜",135,220);
+			wincontext.strokeStyle="white";
+			wincontext.strokeText("叉胜",135,220);
+			wintext.style.display="inline";
+			console.log("blue win");
+			computerflag=false;
+			return document.getElementById("chess").onclick=null;
+		}
+		}
+		else{
+			wincontext.font="100px 华文新魏";
+			wincontext.fillStyle="#ff7575";
+			wincontext.fillText("平局",135,220);
+			wincontext.strokeStyle="white";
+			wincontext.strokeText("平局",135,220);
+			wintext.style.display="inline";
+			console.log("nobody win");
+			computerflag=false;
+			return document.getElementById("chess").onclick=null;
+		}
+		
+	}
+	function setwintext(){
+		wintext.style.display="none";
+		wincontext.clearRect(0,0,600,600);
+		help_visible=false;
+	}
+	function help(){
+		if(help_visible)return setwintext();
+		help_visible=true;
+		wincontext.font="30px 华文新魏";
+		wincontext.fillStyle="black";
+		wincontext.fillText("游戏规则",170,50);
+		wincontext.fillText("把三子连成线者胜",90,120);
+		wincontext.fillText("本游戏具有先手优势",80,180);	
+		wincontext.fillText("但先手无必胜策略",90,220);	
+		wintext.style.display="inline";
+	}
+	
+	
+	function change_o(){
+		person_o=!person_o;
+		if(person_o)
+			document.getElementById("w").value="OO：人类";
+		else
+			document.getElementById("w").value="OO：电脑";
+		if(!person_o&&O&&computerflag)
+			computer();
+	}
+	function change_x(){
+		person_x=!person_x;
+		if(person_x)
+			document.getElementById("b").value="XX：人类";
+		else
+			document.getElementById("b").value="XX：电脑";
+		if(!person_x&&!O&&computerflag)
+			computer();
+	}
+	
+	function computer(){
+		var value=2;
+		if(!O)value=-2;
+		for(var i=0;i<8;i++){
+			if(win_case[i]==value){
+				switch(i){
+				case 3:draw(0,0);draw(0,1);draw(0,2);break;
+				case 4:draw(1,0);draw(1,1);draw(1,2);break;
+				case 5:draw(2,0);draw(2,1);draw(2,2);break;
+				case 0:draw(0,0);draw(1,0);draw(2,0);break;
+				case 1:draw(0,1);draw(1,1);draw(2,1);break;
+				case 2:draw(0,2);draw(1,2);draw(2,2);break;
+				case 6:draw(0,0);draw(1,1);draw(2,2);break;
+				case 7:draw(0,2);draw(1,1);draw(2,0);break;
+				}
+				return;
+			}
+		}
+		var stack=[],p=0;
+		for(var i=0;i<8;i++){
+			if(win_case[i]==-value){
+				switch(i){
+				case 3:draw(0,0);draw(0,1);draw(0,2);break;
+				case 4:draw(1,0);draw(1,1);draw(1,2);break;
+				case 5:draw(2,0);draw(2,1);draw(2,2);break;
+				case 0:draw(0,0);draw(1,0);draw(2,0);break;
+				case 1:draw(0,1);draw(1,1);draw(2,1);break;
+				case 2:draw(0,2);draw(1,2);draw(2,2);break;
+				case 6:draw(0,0);draw(1,1);draw(2,2);break;
+				case 7:draw(0,2);draw(1,1);draw(2,0);break;
+				}
+				return;
+			}
+			if(win_case[i]==value/2){
+				stack[p]=i;
+				p++;
+			}
+		}
+		var flag=[]
+		for(var i=0;i<3;i++){
+			flag[i]=[]
+			for(var j=0;j<3;j++){
+				flag[i][j]=0;
+			}
+		}
+		for(var i=0;i<p;i++){
+			switch(stack[i]){
+				case 3:flag[0][0]++;flag[0][1]++;flag[0][2]++;break;
+				case 4:flag[1][0]++;flag[1][1]++;flag[1][2]++;break;
+				case 5:flag[2][0]++;flag[2][1]++;flag[2][2]++;break;
+				case 0:flag[0][0]++;flag[1][0]++;flag[2][0]++;break;
+				case 1:flag[0][1]++;flag[1][1]++;flag[2][1]++;break;
+				case 2:flag[0][2]++;flag[1][2]++;flag[2][2]++;break;
+				case 6:flag[0][0]++;flag[1][1]++;flag[2][2]++;break;
+				case 7:flag[0][2]++;flag[1][1]++;flag[2][0]++;break;
+			}
+		}
+		for(var i=0;i<3;i++)
+			for(var j=0;j<3;j++)
+				if(flag[i][j]>1&&chessBoard[i][j]==0)
+					return draw(i,j);
+		//if(turn==0)return draw(0,0);
+		if(turn==1){
+			if(chessBoard[0][0]==1)return draw(2,2);
+		}
+		else if(turn==2){
+			if(chessBoard[0][0]==1){
+				if(chessBoard[0][1]!=0)return draw(2,0);
+				if(chessBoard[0][2]!=0)return draw(2,2);
+				if(chessBoard[1][0]!=0)return draw(0,2);
+				if(chessBoard[1][1]!=0)return draw(2,2);
+				if(chessBoard[1][2]!=0)return draw(1,1);
+				if(chessBoard[2][0]!=0)return draw(2,2);
+				if(chessBoard[2][1]!=0)return draw(1,1);
+				if(chessBoard[2][2]!=0)return draw(0,2);
+			}
+			if(chessBoard[1][1]==1){
+				if(chessBoard[0][0]!=0)return draw(2,2);
+				if(chessBoard[2][0]!=0)return draw(0,2);
+				if(chessBoard[0][2]!=0)return draw(2,0);
+				if(chessBoard[2][2]!=0)return draw(0,0);
+				return draw(0,0);
+			}
+			if(chessBoard[1][1]==-1){
+				if(chessBoard[2][0]!=0)return draw(0,2);
+				if(chessBoard[0][2]!=0)return draw(2,0);
+				if(chessBoard[2][2]!=0)return draw(0,0);
+			}
+			
+		}
+		for(var i=0;i<100;i++){
+			var k=Math.floor(Math.random()*3);
+			var m=Math.floor(Math.random()*3);
+			if(chessBoard[k][m]==0)
+				return draw(k,m);
+		}
+	}
+</script>
+
+</body>
+</html>

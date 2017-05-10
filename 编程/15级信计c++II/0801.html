@@ -1,0 +1,123 @@
+<!doctype html><html><head><meta charset="utf - 8"><title>数列</title><link rel="stylesheet" href="../../stylesheets/timu.css" ></head>
+
+<body>
+<h1>数列</h1>
+<p id="title">做一个数列类，最初时该数列为：1,2,3,4,5,6,7,8,9。然后请你对数列按下面要求进行操作。<br>a：在数列的最后添加一个数。<br>p：将数列最后一个数删除。<br>i：在指定的位置上插入一个数。<br>d：删除指定位置上的数。<br>+：在数列后面添加另外的一个数列。<br>s：打印当前数列。<br>[：显示指定位置上的数。<br>具体输入格式看输入样例。</p>
+<h3 onclick="change_visible('input')">Input</h3>
+<p id="input">本题输入若干行指令。每个指令一行。</p>
+<h3 onclick="change_visible('output')">Output</h3>
+<p id="output">打印所有输出指令要输出的内容，一条指令输出一行。</p>
+<h3 onclick="change_visible('sample_input')">Sample Input</h3>
+<p id="sample_input">a 10<br>s<br>d 0<br>[ 0<br>i 7 11<br>p<br>s<br>+ 15 16 17<br>s</p>
+<h3 onclick="change_visible('sample_output')">Sample Output</h3>
+<p id="sample_output">1 2 3 4 5 6 7 8 9 10<br>2<br>2 3 4 5 6 7 8 11 9<br>2 3 4 5 6 7 8 11 9 15 16 17</p>
+<h3 onclick="change_visible('code1')">code</h3>
+<pre id="code1">
+#include < iostream > 
+using namespace std;
+class series{
+private:
+    int* p;
+    int count;
+public:
+    series(){
+        p=new int[9];
+        count=9;
+        for(int i=0;i < 9;i++)
+            p[i]=i+1;
+    }
+    void append(int a){
+        int *tmp=new int[count+1];
+        tmp[count]=a;
+        for(int i=0;i < count;i++)
+            tmp[i]=p[i];
+        if(p)delete[]p;
+        p=tmp;
+        count++;
+    }
+    void pop(){
+        if(count==0)throw 0;
+        count--;
+    }
+    void insert(int k,int a){
+        int* tmp=new int[count+1];
+        tmp[k]=a;
+        for(int i=0;i < k;i++)
+            tmp[i]=p[i];
+        for(int i=k;i < count;i++)
+            tmp[i+1]=p[i];
+        if(p)delete[]p;
+        p=tmp;
+        count++;
+    }
+    void erase(int k){
+        for(int i=k;i < count-1;i++)
+            p[i]=p[i+1];
+        count--;
+    }
+    void add(string x){
+        int tmp;
+        int i=0;
+        for(;i < x.length()&&x[i]==' ';i++);
+        for(tmp=0;i < x.length();i++){
+            if(x[i]==' '){
+                this- > append(tmp);
+                tmp=0;
+            }
+            else{
+                tmp*=10;
+                tmp+=int(x[i]-'0');
+            }
+        }
+        this- > append(tmp);
+    }
+    void print(){
+        for(int i=0;i < count;i++)
+            cout <  < p[i] <  < " ";
+        cout <  < endl;
+    }
+    int operator[](int i){
+        return p[i];
+    }
+    
+};
+int main(){
+    series x;
+    string str;
+    char key;
+    int tmp,k;
+    while(cin >  > key){
+        switch(key){
+        case 'a':
+            cin >  > tmp;
+            x.append(tmp);
+            break;
+        case 'p':
+            x.pop();
+            break;
+        case 'i':
+            cin >  > k >  > tmp;
+            x.insert(k,tmp);
+            break;
+        case 'd':
+            cin >  > k;
+            x.erase(k);
+            break;
+        case '+':
+            getline(cin,str);
+            x.add(str);
+            break;
+        case 's':
+            x.print();
+            break;
+        case '[':
+            cin >  > k;
+            cout <  < x[k] <  < endl;
+            break;
+        default:
+            break;
+        }
+    }
+}
+</pre>
+</body><script src = "../../javascripts/functions.js" ></script ></html>

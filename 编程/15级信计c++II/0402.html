@@ -1,0 +1,53 @@
+<!doctype html><html><head><meta charset="utf - 8"><title>虫子</title><link rel="stylesheet" href="../../stylesheets/timu.css" ></head>
+
+<body>
+<h1>虫子</h1>
+<p id="title">鼹鼠先生的午餐时间到了，它的朋友土拨鼠为它准备了一个午餐时间的小游戏。<br>土拨鼠把鼹鼠午餐要吃的所有虫子分成了n堆，并在第一堆的虫子身上从1到a1进行标号，第二堆虫子身上为从a1+1到a1+a2进行标号，如此进行下去，直到所有的n堆中的虫子都被标上了编号。<br>鼹鼠吃不下所有的虫子，同时我们知道鼹鼠的视力已经退化了，所以它看不见东西，为此只能靠土拨鼠将虫子放到鼹鼠面前鼹鼠才能吃到虫子。土拨鼠可以告诉鼹鼠那条虫子最肥美，但只有当鼹鼠正确说出这个编号的虫子在那一堆中时，鼹鼠才能真正吃到这条虫子。<br>为了让可怜的鼹鼠先生能好好地享受它的午餐，请你帮助它说出每一条土拨鼠报出标号的虫子在那个堆中的堆号。</p>
+<h3 onclick="change_visible('input')">Input</h3>
+<p id="input">本题有多组测试数据，输入的第一行为一个正整数T，表示测试用例的组数。<br>对每组测试用例，输入的第一行为一个正整数n，其中1≤n≤10^5。<br>输入的第二行包含n个正整数a1,a2,...,an。其中(1≤ai≤10^3,a1+a2+...+an≤10^6。<br>输入的第三行包含一个正整数m，表示所有土拨鼠报出的当时最为肥美的虫子的编号个数，其中1≤m≤10^5。<br>第四行包含m个正整数，表示所有土拨鼠报出的当时最为肥美的虫子的编号。</p>
+<h3 onclick="change_visible('output')">Output</h3>
+<p id="output">对每组测试用例输出一行m个正整数，对应虫子所在的堆号。</p>
+<h3 onclick="change_visible('sample_input')">Sample Input</h3>
+<p id="sample_input">1<br>5<br>2 7 3 4 9<br>3<br>1 25 11</p>
+<h3 onclick="change_visible('sample_output')">Sample Output</h3>
+<p id="sample_output">1 5 3</p>
+<h3 onclick="change_visible('code1')">code</h3>
+<pre id="code1">
+#include < iostream > 
+using namespace std;
+int main()
+{
+    int n=0;
+    while(cin >  > n)
+    {
+        for(int o=0;o < n;o++)
+        {
+            int t;
+            cin >  > t;
+            long long*p=new long long[t];<strong>//每堆有几个</strong>
+            for(int i=0;i < t;i++)
+                cin >  > p[i];
+            int m;
+            cin >  > m;
+            long long*tp=new long long[m];<strong>//目标</strong>
+            for(int i=0;i < m;i++)
+                cin >  > tp[i];
+            <strong>//对于一个目标如果处于前n-1堆和 与 前n堆和 之间，则说明目标在第n堆</strong>
+            for(int i=1;i < t;i++)
+                p[i]+=p[i-1];
+            <strong>//p从每堆有几个变成了前几堆共有几个</strong>
+            for(int i=0;i < m;i++)
+                for(int j=0;j < t;j++)
+                    if(tp[i] < =p[j])
+                    {
+                        cout <  < j+1 <  < " ";
+                        break;
+                    }
+            cout <  < endl;
+            delete[]tp;
+            delete[]p;
+        }
+    }
+}
+</pre>
+</body><script src = "../../javascripts/functions.js" ></script ></html>

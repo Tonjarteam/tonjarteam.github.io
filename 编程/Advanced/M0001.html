@@ -1,0 +1,52 @@
+<!doctype html><html><head><meta charset="utf - 8"><title>Moving Tables</title><link rel="stylesheet" href="../../stylesheets/timu.css" ></head>
+
+<body>
+<h1>Moving Tables</h1>
+<p id="title">The famous ACM (Advanced Computer Maker) Company has rented a floor of a building whose shape is in the following figure. <br>| 1 | 3 | 5 | 7 |……|399|<br>| |<br>| 2 | 4 | 6 | 8 |……|400|<br>The floor has 200 rooms each on the north side and south side along the corridor. Recently the Company made a plan to reform its system. The reform includes moving a lot of tables between rooms. Because the corridor is narrow and all the tables are big, only one table can pass through the corridor. Some plan is needed to make the moving efficient. The manager figured out the following plan: Moving a table from a room to another room can be done within 10 minutes. When moving a table from room i to room j, the part of the corridor between the front of room i and the front of room j is used. So, during each 10 minutes, several moving between two rooms not sharing the same part of the corridor will be done simultaneously. To make it clear the manager illustrated the possible cases and impossible cases of simultaneous moving. </p>
+<table style="margin-left:60px;">
+<tbody>
+<tr>
+<td></td>
+<td>Table moving </td>
+<td>Reason</td>
+</tr>
+<tr>
+<td>Possible</td>
+<td>30 to 50 and 60 to 90 </td>
+<td>no part corridor is shared</td>
+</tr>
+<tr>
+<td>Possible</td>
+<td>11 to 12 and 14 to 13  </td>
+<td>no part corridor is shared</td>
+</tr>
+<tr>
+<td>Impossible</td>
+<td>20 to 40 and 31 to 80</td>
+<td> corridor in front of 31 to 40 is shared</td>
+</tr>
+<tr>
+<td>Impossible</td>
+<td>1  to 4  and 3 to 6 </td>
+<td> corridor in front of 3 is shared</td>
+</tr>
+<tr>
+<td>Impossible</td>
+<td>2  to 8  and 7 to 10</td>
+<td>    corridor in front of 7 is shared</td>
+</tr>
+</table>
+<p>For each room, at most one table will be either moved in or moved out. Now, the manager seeks out a method to minimize the time to move all the tables. Your job is to write a program to solve the manager’s problem.</p>
+<h3 onclick="change_visible('input')">Input</h3>
+<p id="input">The input consists of T test cases. The number of test cases ) (T is given in the first line of the input. Each test case begins with a line containing an integer N , 1&lt;=N&lt;=200 , that represents the number of tables to move. Each of the following N lines contains two positive integers s and t, representing that a table is to move from room number s to room number t (each room number appears at most once in the N lines). From the N+3-rd line, the remaining test cases are listed in the same manner as above.</p>
+<h3 onclick="change_visible('output')">Output</h3>
+<p id="output">The output should contain the minimum time in minutes to complete the moving, one per line.</p>
+<h3 onclick="change_visible('sample_input')">Sample Input</h3>
+<p id="sample_input">3 <br>4 <br>10 20 <br>30 40 <br>50 60 <br>70 80 <br>2 <br>1 3 <br>2 200 <br>3 <br>10 100 <br>20 80 <br>30 50 </p>
+<h3 onclick="change_visible('sample_output')">Sample Output</h3>
+<p id="sample_output">10<br>20<br>30</p>
+<h3 onclick="change_visible('code1')">code</h3>
+<div id="code1" class="codearea">
+<div class="lineodd"><code><code class="zhushi">//可以考虑如果是只有一边房间的情况，两边房间与之类似</code></code></div><div class="lineeven"><code><code class="zhushi">//注意可以从房间号大的搬到房间号小的</code></code></div><div class="lineodd"><code></code><code class="keyword">#include</code><code>&lt;iostream&gt;</code></div><div class="lineeven"><code></code><code class="keyword">using</code><code>&nbsp;</code><code class="keyword">namespace</code><code>&nbsp;std;</code></div><div class="lineodd"><code></code><code class="keyword">int</code><code>&nbsp;main(){</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">int</code><code>&nbsp;t;</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">int</code><code>&nbsp;room[201];</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">while</code><code>(cin&gt;&gt;t){</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">for</code><code>(</code><code class="keyword">int</code><code>&nbsp;j=0;j&lt;t;j</code><code class="keyword">++</code><code>){</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">int</code><code>&nbsp;n;</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cin&gt;&gt;n;</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">for</code><code>(</code><code class="keyword">int</code><code>&nbsp;i=0;i&lt;201;i</code><code class="keyword">++</code><code>)</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;room[i]=0;</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">for</code><code>(</code><code class="keyword">int</code><code>&nbsp;i=0;i&lt;n;i</code><code class="keyword">++</code><code>){</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">int</code><code>&nbsp;start,end;</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cin&gt;&gt;start&gt;&gt;end;</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">if</code><code>(start&gt;end){</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">int</code><code>&nbsp;tmp=start;</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start=end;</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end=tmp;</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start=(start+1)/2;</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end=(end+1)/2;</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">for</code><code>(</code><code class="keyword">int</code><code>&nbsp;k=start;k&lt;=end;k</code><code class="keyword">++</code><code>)</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;room[k]</code><code class="keyword">++</code><code>;</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">int</code><code>&nbsp;max=0;</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">for</code><code>(</code><code class="keyword">int</code><code>&nbsp;i=0;i&lt;201;i</code><code class="keyword">++</code><code>)</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">if</code><code>(room[i]&gt;max)max=room[i];</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout&lt;&lt;max*10&lt;&lt;endl;</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;}</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;</code></div><div class="lineeven"><code>}</code></div>
+</div>
+</body><script src = "../../javascripts/functions.js" ></script ></html>

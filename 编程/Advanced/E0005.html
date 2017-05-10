@@ -1,0 +1,18 @@
+<!doctype html><html><head><meta charset="utf - 8"><title>Wolf and Rabbit</title><link rel="stylesheet" href="../../stylesheets/timu.css" ></head>
+
+<body>
+<h1>Wolf and Rabbit</h1>
+<p id="title">There is a hill with n holes around. The holes are signed from 0 to n-1.<br>A rabbit must hide in one of the holes. A wolf searches the rabbit in anticlockwise order. The first hole he get into is the one signed with 0. Then he will get into the hole every m holes. For example, m=2 and n=6, the wolf will get into the holes which are signed 0,2,4,0. If the rabbit hides in the hole which signed 1,3 or 5, she will survive. So we call these holes the safe holes.</p>
+<h3 onclick="change_visible('input')">Input</h3>
+<p id="input">The input starts with a positive integer P which indicates the number of test cases. Then on the following P lines,each line consists 2 positive integer m and n(0&lt;m,n&lt;2147483648).</p>
+<h3 onclick="change_visible('output')">Output</h3>
+<p id="output">For each input m n, if safe holes exist, you should output "YES", else output "NO" in a single line.</p>
+<h3 onclick="change_visible('sample_input')">Sample Input</h3>
+<p id="sample_input">2<br>1 2<br>2 2</p>
+<h3 onclick="change_visible('sample_output')">Sample Output</h3>
+<p id="sample_output">NO<br>YES</p>
+<h3 onclick="change_visible('code1')">code</h3>
+<div id="code1" class="codearea">
+<div class="lineodd"><code></code><code class="keyword">#include</code><code>&lt;iostream&gt;</code></div><div class="lineeven"><code></code><code class="keyword">using</code><code>&nbsp;</code><code class="keyword">namespace</code><code>&nbsp;std;</code></div><div class="lineodd"><code></code><code class="keyword">int</code><code>&nbsp;gcd(</code><code class="keyword">int</code><code>&nbsp;a,</code><code class="keyword">int</code><code>&nbsp;b){</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">if</code><code>(b==0)</code><code class="keyword">return</code><code>&nbsp;a;</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">return</code><code>&nbsp;gcd(b,a%b);</code></div><div class="lineeven"><code>}</code></div><div class="lineodd"><code></code><code class="keyword">int</code><code>&nbsp;main(){</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">int</code><code>&nbsp;n;</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">while</code><code>(cin&gt;&gt;n){</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">for</code><code>(</code><code class="keyword">int</code><code>&nbsp;q=0;q&lt;n;q</code><code class="keyword">++</code><code>){</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">int</code><code>&nbsp;a,b;</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cin&gt;&gt;a&gt;&gt;b;</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">if</code><code>(gcd(a%b,b)==1)cout&lt;&lt;"NO\n";</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">else</code><code>&nbsp;cout&lt;&lt;"YES\n";</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;}</code></div><div class="lineodd"><code>}</code></div>
+</div>
+</body><script src = "../../javascripts/functions.js" ></script ></html>

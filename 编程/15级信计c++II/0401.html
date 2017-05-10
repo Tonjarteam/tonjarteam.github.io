@@ -1,0 +1,128 @@
+<!doctype html><html><head><meta charset="utf - 8"><title>18岁生日</title><link rel="stylesheet" href="../../stylesheets/timu.css" ></head>
+
+<body>
+<h1>18岁生日</h1>
+<p id="title">Gardon的18岁生日就要到了，他当然很开心，可是他突然想到一个问题，是不是每个人从出生开始，到达18岁生日时所经过的天数都是一样的呢？似乎并不全都是这样，所以他想请你帮忙计算一下他和他的几个朋友从出生到达18岁生日所经过的总天数，让他好来比较一下。</p>
+<h3 onclick="change_visible('input')">Input</h3>
+<p id="input">一个数T，后面T行每行有一个日期，格式是YYYY-MM-DD。如我的生日是1988-03-07。</p>
+<h3 onclick="change_visible('output')">Output</h3>
+<p id="output">T行，每行一个数，表示此人从出生到18岁生日所经过的天数。如果这个人没有18岁生日，就输出-1。</p>
+<h3 onclick="change_visible('sample_input')">Sample Input</h3>
+<p id="sample_input">1<br>1988-03-07</p>
+<h3 onclick="change_visible('sample_output')">Sample Output</h3>
+<p id="sample_output">6574</p>
+<h3 onclick="change_visible('code1')">code1</h3>
+<pre id="code1">
+<strong>//繁琐的去判断的方法</strong>
+#include < iostream > 
+using namespace std;
+bool judge_day_exist(int year,int month,int day)
+{
+    if(day < 1)return 0;
+    switch(month)
+    {
+        case 1:case 3:case 5:case 7:case 8:case 10:case 12:
+            if(day > 31)return 0;
+            break;
+        case 4:case 6:case 9:case 11:
+            if(day > 30)return 0;
+        case 2:
+            if((year%4==0&&year%100!=0)||year%400==0)
+            {
+                if(day > 29)return 0;
+                break;
+            }
+            else
+            {
+                if(day > 28)return 0;
+                break;
+            }
+        default:return 0;
+    }
+    return 1;
+}
+
+
+
+int main()
+{
+    int n,count=0;
+    int year=0,month=0,day=0;
+    string str_date;
+    while(cin >  > n)
+    {
+        for(int i=0;i < n;i++)
+        {
+            year=0;
+            int tag=1;
+            count=0;
+            cin >  > str_date;
+            for(int j=0;j < 4;j++)
+                year=year*10+int(str_date[j]-'0');
+            month=int(str_date[5]-'0')*10+int(str_date[6]-'0');
+            day=int(str_date[8]-'0')*10+int(str_date[9]-'0');
+            if(!judge_day_exist(year+18,month,day))
+            {
+                cout <  < -1 <  < endl;
+                continue;
+            }
+            else
+            {
+                if(month < 3)tag=0;
+                for(int k=tag;k < (tag+18);k++)
+                {
+                    if((((year+k)%4==0)&&((year+k)%100!=0))||(year+k)%400==0)
+                    {
+                        count+=366;
+                    }
+                    else
+                    {
+                        count+=365;
+                    }
+                }
+                cout <  < count <  < endl;
+            }
+        }
+    }
+    
+}
+</pre>
+<h3 onclick="change_visible('code2')">code2</h3>
+<pre id="code2">
+<strong>//预先计算好的一种方法</strong>
+#include < iostream > 
+using namespace std;
+int main()
+{
+    int n,count=0;
+    int year=0,month=0,day=0;
+    while(cin >  > n)
+    {
+        for(int i=0;i < n;i++)
+        {
+            cin >  > year >  > month >  > day;<strong>//注意这里比如输入1996-01-12  year=1996,month=-1,day=-12</strong>
+            month=-month;day=-day;
+            if(month==2&&day==29)
+            {
+                cout <  < -1 <  < endl;
+                continue;
+            }
+            int tag=-1;
+            if(year/100!=((year+18)/100))
+            {
+                int m=(year/100+1)*100;
+                if((m%4==0&&m%100!=0)||m%400==0)
+                    tag=0;
+            }
+            int list[2][4]={6575,6575,6574,6574,6574,6575,6575,6574};
+            int p1=0,p2=0;
+            for(;p1 < 4;p1++,year++)
+                if(year%4==0)
+                    break;
+            if(month > 2)p2=1;
+            cout <  < list[p2][p1]+tag <  < endl;
+        }
+    }
+}
+</pre>
+</body><script src = "../../javascripts/functions.js" ></script ></html>

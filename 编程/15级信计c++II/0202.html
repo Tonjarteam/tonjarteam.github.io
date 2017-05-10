@@ -1,0 +1,61 @@
+<!doctype html><html><head><meta charset="utf - 8"><title>第二大值</title><link rel="stylesheet" href="../../stylesheets/timu.css" ></head>
+
+<body>
+<h1>第二大值</h1>
+<p id="title">现给你n个不全相同的正整数，请你求出这n个整数中的第二大值。</p>
+<h3 onclick="change_visible('input')">Input</h3>
+<p id="input">数据量比较大，所以请用scanf来读入数据。<br>Input<br>本题有多组测试数据。<br>输入的第一行包含一个整数T，表示测试数据的组数。<br>在每组测试数据的第一行中包含一个整数N，表示本测试数据中整数的个数；测试数据的第二行中包含N(1<=N<=1000000)个正整数，表示本测试数据的本身数组，这些数都不大于10^19。</p>
+<h3 onclick="change_visible('output')">Output</h3>
+<p id="output">共输出T行。<br>每行对应一组测试数据，为对应的数组中的第二大数。</p>
+<h3 onclick="change_visible('sample_input')">Sample Input</h3>
+<p id="sample_input">2<br>4<br>5 1 5 3<br>10<br>10 9 8 2 6 5 4 3 2 10</p>
+<h3 onclick="change_visible('sample_output')">Sample Output</h3>
+<p id="sample_output">3<br>9</p>
+<h3 onclick="change_visible('code1')">code</h3>
+<pre id="code1">
+int main()
+{
+    long long max_1,max_2;
+    int num;
+    int n;
+    long long tmp;
+    while( cin >  > num)
+    {
+        for(int i=0;i < num;i++)
+        {
+            cin >  > n;
+            if(n==1)
+            {
+                cin >  > tmp;
+                cout <  < tmp;
+                return 0;
+            }
+            cin >  > max_1 >  > max_2;
+            if(max_1 < max_2)
+            {
+                tmp=max_1;
+                max_1=max_2;
+                max_2=tmp;
+            }
+            for(int i=0;i < n-2;i++)
+            {
+                cin >  > tmp;
+                if(tmp > max_1)
+                {
+
+                    max_2=max_1;
+                    max_1=tmp;
+                }
+                else if(tmp==max_1);
+                else if(tmp > max_2)
+                    max_2=tmp;
+
+            }
+            cout <  < max_2 <  < endl;
+        }
+    }
+    return 0;
+}
+
+</pre>
+</body><script src = "../../javascripts/functions.js" ></script ></html>

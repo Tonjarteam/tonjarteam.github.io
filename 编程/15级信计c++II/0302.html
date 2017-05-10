@@ -1,0 +1,101 @@
+<!doctype html><html><head><meta charset="utf - 8"><title>素数判定</title><link rel="stylesheet" href="../../stylesheets/timu.css" ></head>
+
+<body>
+<h1>素数判定</h1>
+<p id="title">对于表达式n^2+n+41，当n在（x,y）范围内取整数值时（包括x,y）(-39<=x<y<=50)，判定该表达式的值是否都为素数。</p>
+<h3 onclick="change_visible('input')">Input</h3>
+<p id="input">输入数据有多组，每组占一行，由两个整数x，y组成，当x=0,y=0时，表示输入结束，该行不做处理。</p>
+<h3 onclick="change_visible('output')">Output</h3>
+<p id="output">对于每个给定范围内的取值，如果表达式的值都为素数，则输出"OK",否则请输出“Sorry”,每组输出占一行。</p>
+<h3 onclick="change_visible('sample_input')">Sample Input</h3>
+<p id="sample_input">0 1<br>0 0</p>
+<h3 onclick="change_visible('sample_output')">Sample Output</h3>
+<p id="sample_output">OK</p>
+<h3 onclick="change_visible('code1')">code1</h3>
+<pre id="code1">
+#include < iostream > 
+using namespace std;
+<strong>//做法稍微和老师的有些不同</strong>
+<strong>//老师的做法更多地采用了位运算，不熟悉的同学可以去补一下相关内容，但不必看太多，毕竟也是个大坑。</strong>
+<strong>//我这里直接做了，先直接左移，如果大于65535(1<<16-1)/二的十六次方减一，就把多于的部分记录下来(b*65536)而b就是要添到屁股后面去的部分，减去前面的，加上后面的就返回a;</strong>
+<strong>//输入的时候两个两个一组可以去用二维数组，好像当时觉得去声明这样一个动态数组有点烦所以就用一维数组代替了。</strong>
+int zuoyi(long long a,int i)
+{
+    a=a <  < i;
+    if(a > 65535)
+    {
+        int b=a/65536;
+        a+=b;
+        a-=b*65536;
+    }
+    return a;
+}
+
+bool judge(int a,int b)
+{
+    for(int i=0;i < 16;i++)
+    {
+        if(zuoyi(a,i)==b)
+            return true;
+    }        
+    return false;
+}
+
+int main()
+{
+    int n;
+    while(cin >  > n)
+    {
+        int *a=new int[2*n];
+        for(int i=0;i < n;i++)
+        {
+            cin >  > a[2*i] >  > a[2*i+1];
+        }
+        for(int i=0;i < n;++i)
+        {
+            if(judge(a[2*i],a[2*i+1]))
+                cout <  < "YES" <  < endl;
+            else
+                cout <  < "NO" <  < endl;
+        }
+
+        delete[]a;
+    }
+    
+}
+</pre>
+<h3 onclick="change_visible('code2')">code2</h3>
+<pre id="code2">
+<strong>//筛选法，mian函数中仅仅是演示如何使用，与本题无关</strong>
+int* Eratosthenes(int N)<strong>//可以以O(N)的时间&空间去找出所有小于N的素数</strong>
+{
+    int* answer=new int[N+1];
+    for(int i=0;i < N+1;i++)
+        answer[i]=1;
+    for(int i=2;i*i < N+1;i++)
+        for(int j=2;i*j < N+1;j++)
+            answer[i*j]=0;
+    return answer;
+}
+int main()
+{
+    int n;
+    while(cin >  > n)
+    {
+        int* p=Eratosthenes(n);
+        int a;
+        while(cin >  > a)
+        {
+            if(a > n||a < 2){
+                cout <  < "未在测试范围内\n";
+                continue;
+            }
+            if(p[a])
+                cout <  < a <  < "是素数\n";
+            else 
+                cout <  < a <  < "不是素数\n";
+        }
+    }
+}
+</pre>
+</body><script src = "../../javascripts/functions.js" ></script ></html>

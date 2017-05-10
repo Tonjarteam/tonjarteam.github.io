@@ -1,0 +1,158 @@
+<!doctype html><html><head><meta charset="utf - 8"><title>分数运算</title><link rel="stylesheet" href="../../stylesheets/timu.css" ></head>
+
+<body>
+<h1>分数运算</h1>
+<p id="title">请你对下面这些分数按要求进行计算。</p>
+<h3 onclick="change_visible('input')">Input</h3>
+<p id="input">本题有多行。<br>每行的开始有一个运算符，表示要做的运算，然后给出两个分数，让你按要求对分数进行计算。</p>
+<h3 onclick="change_visible('output')">Output</h3>
+<p id="output">每行输出一个一个分数，为欲求的答案。</p>
+<h3 onclick="change_visible('sample_input')">Sample Input</h3>
+<p id="sample_input">+ 1/2 1/2<br>+ 1/3 1/3<br>- 1/2 1/3<br>* 1/2 2/1<br>/ 2/3 1/2</p>
+<h3 onclick="change_visible('sample_output')">Sample Output</h3>
+<p id="sample_output">1<br>2/3<br>1/6<br>1<br>4/3</p>
+<h3 onclick="change_visible('code1')">code</h3>
+<pre id="code1">
+#include < iostream > 
+using namespace std;
+#include < cstdio > 
+class fraction
+{
+private:
+    int n;
+    int d;
+    int gcd(int a,int b);
+    void renew();
+public:
+    fraction(int a = 0,int b = 1);
+    fraction operator+(const fraction& x);
+    fraction operator/(const fraction& x);
+    fraction operator-(const fraction& x);
+    fraction operator*(const fraction& x);
+    friend ostream& operator <  < (ostream& os, const fraction& x);
+    friend istream& operator >  > (istream& os, fraction& x);
+    void print(){
+        if (n == 0 || d == 1)
+            printf("%d\n",n);
+        else
+            printf("%d/%u\n",n,d);
+        <strong>//cout << endl;</strong>
+    }
+    void set(int a,int b){
+        n=a;d=b;
+        if(b==0)
+            throw 0;
+        renew();
+    }
+};
+int main()
+{
+    fraction a, b;
+    int n;
+    int d;
+    char key = ' ';
+    while (scanf("%c",&key)==1) {
+        scanf("%d/%d",&n,&d);
+        a.set(n,d);
+        scanf("%d/%d",&n,&d);
+        b.set(n,d);
+        
+        switch (key)
+        {
+        case '+':
+            <strong>//cout << a + b;</strong>
+            (a+b).print();
+            break;
+        case'-':
+            <strong>//cout << a - b;</strong>
+            (a-b).print();
+            break;
+        case '/':
+            <strong>//cout << a / b;</strong>
+            (a/b).print();
+            break;
+        case '*':
+            <strong>//cout << a * b;</strong>
+            (a*b).print();
+            break;
+        default:
+            return 0;
+        }
+        scanf("%c",&key);
+    }
+}
+
+int fraction::gcd( int a, int b) {
+    if(b==0)return a;
+    else return gcd(b,a%b);
+}
+void fraction::renew() {
+    int m = 0;
+    int a=n;
+    int b=d;
+    if(a < 0)a=-a;
+    if(a < b)
+        m=gcd(a,b);
+    else
+        m=gcd(b,a);
+    n /= m;
+    d /= m;
+}
+
+fraction::fraction(int a,int b)
+{
+    if (b == 0)
+    ;<strong>//	throw 0;</strong>
+    n = a;
+    d = b;
+    if(d < 0){
+        d=-d;
+        n=-n;
+    }
+    renew();
+}
+
+fraction fraction::operator+(const fraction & x)
+{
+    return fraction(n*x.d + x.n*d, d*x.d);
+}
+
+fraction fraction::operator/(const fraction & x)
+{
+    if (x.n == 0)
+    ;<strong>//	throw 0;</strong>
+    return fraction(n*x.d, x.n*d);
+}
+
+fraction fraction::operator-(const fraction & x)
+{
+    return fraction(n*x.d - x.n*d, d*x.d);
+}
+
+fraction fraction::operator*(const fraction & x)
+{
+    return fraction(n*x.n, d*x.d);
+}
+
+
+ostream & operator <  < (ostream & os, const fraction & x)
+{
+    if (x.n == 0 || x.d == 1)
+        os  <  <  x.n;
+    else
+        os  <  <  x.n  <  <  "/"  <  <  x.d;
+    os  <  <  endl;
+    return os;
+    <strong>// TODO: 在此处插入 return 语句</strong>
+}
+
+istream & operator  >  >  (istream & os, fraction & x)
+{
+    char z;
+    os  >  >  x.n  >  >  z  >  >  x.d;
+    x.renew();
+    return os;
+    <strong>// TODO: 在此处插入 return 语句</strong>
+}
+</pre>
+</body><script src = "../../javascripts/functions.js" ></script ></html>

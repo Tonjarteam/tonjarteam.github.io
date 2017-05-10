@@ -1,0 +1,41 @@
+<!doctype html><html><head><meta charset="utf - 8"><title>众数</title><link rel="stylesheet" href="../../stylesheets/timu.css" ></head>
+
+<body>
+<h1>众数</h1>
+<p id="title">输入20个整数，每个数都在1-10之间，求1-10中的众数（众数就是出现次数最多的数，如果存在一样多次数的众数，则输出权值较小的那一个）。</p>
+<h3 onclick="change_visible('input')">Input</h3>
+<p id="input">测试数据有多组，每组输入20个1-10之间的数。</p>
+<h3 onclick="change_visible('output')">Output</h3>
+<p id="output">对于每组输入,请输出1-10中的众数。</p>
+<h3 onclick="change_visible('sample_input')">Sample Input</h3>
+<p id="sample_input">5 1 5 10 3 5 3 4 8 6 8 3 6 5 10 7 10 2 6 2 </p>
+<h3 onclick="change_visible('sample_output')">Sample Output</h3>
+<p id="sample_output">5</p>
+<h3 onclick="change_visible('code1')">code</h3>
+<pre id="code1">
+#include < iostream > 
+using namespace std;
+int main(){
+    int a[10];
+    while(1){
+        for(int i=0;i < 10;i++){
+            a[i]=0;
+        }
+        int tmp;
+        if(!(cin >  > tmp))break;
+        a[tmp-1]++;
+        for(int i=1;i < 20;i++){
+            cin >  > tmp;
+            a[tmp-1]++;
+        }
+        int max_i=0;
+        for(int i=1;i < 10;i++){
+            if(a[i] > a[max_i])
+                max_i=i;    
+        }
+        cout <  < max_i+1 <  < endl;
+    }
+    
+}
+</pre>
+</body><script src = "../../javascripts/functions.js" ></script ></html>

@@ -1,0 +1,78 @@
+<!doctype html><html><head><meta charset="utf - 8"><title>10元钱找零方案</title><link rel="stylesheet" href="../../stylesheets/timu.css" ></head>
+
+<body>
+<h1>10元钱找零方案</h1>
+<p id="title">小明开了一个小卖部，时间一长他手头有很多的零钱（1角、2角、5角、1元、2元、5元都可以认为是足够多）。现在有一个顾客拿来一张10元的纸币到小明处买了n（&lt;100）角商品的东西，问小明有多少种找钱的方案？如果顾客想要找钱的钱币数最少，则小明应该如何找钱？</p>
+<h3 onclick="change_visible('input')">Input</h3>
+<p id="input">本题有多组测试数据。<br>每组测试数据为一行一个整数，表示顾客所买的商品的价格（单位为角）。</p>
+<h3 onclick="change_visible('output')">Output</h3>
+<p id="output">每组测试数据输出两行。<br>第一行为一个整数，表述小明所有可能的找钱方案数。<br>第二行为若干个整数对表示最少钱币个数找钱的方案，每对整数对的第一个数字是币值，第二个数为该币值的个数。按币值从小到大排序。</p>
+<h3 onclick="change_visible('sample_input')">Sample Input</h3>
+<p id="sample_input">91<br>23</p>
+<h3 onclick="change_visible('sample_output')">Sample Output</h3>
+<p id="sample_output">8<br>2 2 5 1<br>1802<br>2 1 5 1 20 1 50 1</p>
+<h3 onclick="change_visible('code1')">code</h3>
+<pre id="code1">
+
+stack&lt;int> sK;<strong>//存最少钱币数的找钱方案</strong>
+const int a[] = { 50, 20, 10, 5, 2, 1 };
+int nCount = 0;<strong>//存所有可能的找钱方案数</strong>
+
+void dfs(int nR, int k)<strong>//余钱和当前所采用的币种</strong>
+{
+  if (k < 5)
+  {
+    for (int i = 0; i*a[k] <= nR; ++i)<strong>//枚举当前币种的数量</strong>
+    {
+      if (nR - i*a[k]>0)
+        dfs(nR - i*a[k], k + 1);<strong>//换面值更小的币种</strong>
+      else
+      {
+        ++nCount;<strong>//正好</strong>
+        break;
+      }
+    }
+  }
+  else if (k == 5)<strong>//已经是最小的面值了</strong>
+    ++nCount;
+}
+
+int main(void)
+{
+  int n;
+  while (cin >> n)
+  {
+    nCount = 0;
+    dfs(100 - n, 0);<strong>//计算所有可能的找钱方案</strong>
+    cout << nCount << endl;
+    n = 100 - n;
+    int k = 0;
+    while (n > 0)<strong>//最优的找钱方案</strong>
+    {
+      if (n / a[k] > 0)
+      {
+        sK.push(n / a[k]);
+        sK.push(a[k]);
+        n = n%a[k];
+      }
+      ++k;
+    }
+    <strong>//倒序输出</strong>
+    bool bFirstFlg = true;
+    while (!sK.empty())
+    {
+      if (bFirstFlg)
+        bFirstFlg = false;
+      else
+        cout << " ";
+      cout << sK.top()<<" ";
+      sK.pop();
+      cout << sK.top();
+      sK.pop();
+    }
+    cout << endl;
+  }
+  return 0;
+}
+</pre>
+</body><script src = "../../javascripts/functions.js" ></script ></html>

@@ -1,0 +1,18 @@
+<!doctype html><html><head><meta charset="utf - 8"><title>Big Number</title><link rel="stylesheet" href="../../stylesheets/timu.css" ></head>
+
+<body>
+<h1>Big Number</h1>
+<p id="title">In many applications very large integers numbers are required. Some of these applications are using keys for secure transmission of data, encryption, etc. In this problem you are given a number, you have to determine the number of digits in the factorial of the number.<br> </p>
+<h3 onclick="change_visible('input')">Input</h3>
+<p id="input">Input consists of several lines of integer numbers. The first line contains an integer n, which is the number of cases to be tested, followed by n lines, one integer 1 ≤ n ≤ 107 on each line.<br> </p>
+<h3 onclick="change_visible('output')">Output</h3>
+<p id="output">            The output contains the number of digits in the factorial of the integers appearing in the input.<br> </p>
+<h3 onclick="change_visible('sample_input')">Sample Input</h3>
+<p id="sample_input">2<br>10<br>20<br> </p>
+<h3 onclick="change_visible('sample_output')">Sample Output</h3>
+<p id="sample_output">7<br>19</p>
+<h3 onclick="change_visible('code1')">code</h3>
+<div id="code1" class="codearea">
+<div class="lineodd"><code></code><code class="keyword">#include</code><code>&lt;iostream&gt;</code></div><div class="lineeven"><code></code><code class="keyword">#include</code><code>&lt;cmath&gt;</code></div><div class="lineodd"><code></code><code class="keyword">using</code><code>&nbsp;</code><code class="keyword">namespace</code><code>&nbsp;std;</code></div><div class="lineeven"><code></code><code class="keyword">int</code><code>&nbsp;main(){</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">int</code><code>&nbsp;t;</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">while</code><code>(cin&gt;&gt;t){</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">while</code><code>(t</code><code class="keyword">--</code><code>){</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">int</code><code>&nbsp;n;</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cin&gt;&gt;n;</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">if</code><code>(n==1){</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout&lt;&lt;1&lt;&lt;endl;</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">continue</code><code>;</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">double</code><code>&nbsp;i=0.5*log10(2*3.14159*n)+n*log10(n/2.71828);</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout&lt;&lt;</code><code class="keyword">int</code><code>(i+1)&lt;&lt;endl;</code></div><div class="lineeven"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</code></div><div class="lineodd"><code>&nbsp;&nbsp;&nbsp;&nbsp;}</code></div><div class="lineeven"><code>}</code></div>
+</div>
+</body><script src = "../../javascripts/functions.js" ></script ></html>
